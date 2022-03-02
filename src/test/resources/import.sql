@@ -1,0 +1,1 @@
+INSERT INTO cardtransaction(id, commercename, amount, cardnumber, processed, timestamp) VALUES(1, 'IBM', 101.20, '3456', true, '2022-01-01 00:00:00');

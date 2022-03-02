@@ -13,13 +13,13 @@ import org.eclipse.microprofile.opentracing.Traced;
 @Traced
 @RequestScoped
 @Path("/hello")
+@Produces(MediaType.TEXT_PLAIN)
 public class GreetingResource {
 
     private static final Logger LOG = Logger.getLogger(GreetingResource.class);
 
     
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
         LOG.info("hello");
         return "Hello RESTEasy";
