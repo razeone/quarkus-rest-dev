@@ -1,12 +1,13 @@
 package com.ibm.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -16,14 +17,21 @@ import java.math.BigDecimal;
 
 @Entity
 @Cacheable
-public class CardTransaction extends PanacheEntity{
+public class CardTransaction extends PanacheEntity {
 
     @Column(length=100)
     private String commerceName;
     
     private BigDecimal amount;
     private String cardNumber;
-    private Boolean processed;
+    private UUID customerId;
+    private UUID accountId;
+    
+    @Enumerated(EnumType.STRING)
+    private CardTransactionStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private CardTransactionType type;
 
     @Temporal(TemporalType.TIMESTAMP)
     Date timestamp;
@@ -64,18 +72,6 @@ public class CardTransaction extends PanacheEntity{
         this.cardNumber = cardNumber;
     }
 
-    public Boolean isProcessed() {
-        return this.processed;
-    }
-
-    public Boolean getProcessed() {
-        return this.processed;
-    }
-
-    public void setProcessed(Boolean processed) {
-        this.processed = processed;
-    }
-
     public Date getTimestamp() {
         return this.timestamp;
     }
@@ -83,5 +79,37 @@ public class CardTransaction extends PanacheEntity{
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    public UUID getCustomerId() {
+        return this.customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
+    }
+
+    public UUID getAccountId() {
+        return this.accountId;
+    }
     
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
+    }
+
+    public CardTransactionStatus getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(CardTransactionStatus status) {
+        this.status = status;
+    }
+
+    public CardTransactionType getType() {
+        return this.type;
+    }
+
+    public void setType(CardTransactionType type) {
+        this.type = type;
+    }
+
 }

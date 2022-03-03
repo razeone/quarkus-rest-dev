@@ -79,8 +79,20 @@ public class CardTransactionResource {
             throw new WebApplicationException("Card Number was not set on request", 422);
         }
 
-        if(cardTransaction.getProcessed() == null)  {
-            throw new WebApplicationException("Processed value was not set on request", 422);
+        if(cardTransaction.getCustomerId() == null)  {
+            throw new WebApplicationException("Customer Id was not set on request", 422);
+        }
+
+        if(cardTransaction.getAccountId() == null)  {
+            throw new WebApplicationException("Account Id was not set on request", 422);
+        }
+
+        if(cardTransaction.getStatus() == null)  {
+            throw new WebApplicationException("Status was not set on request", 422);
+        }
+
+        if(cardTransaction.getType() == null)  {
+            throw new WebApplicationException("Type was not set on request", 422);
         }
 
         CardTransaction existingCardTransaction = cardTransactionRepository.findById(id);
@@ -92,7 +104,11 @@ public class CardTransactionResource {
         existingCardTransaction.setCommerceName(cardTransaction.getCommerceName());
         existingCardTransaction.setAmount(cardTransaction.getAmount());
         existingCardTransaction.setCardNumber(cardTransaction.getCardNumber());
-        existingCardTransaction.setProcessed(cardTransaction.getProcessed());
+        existingCardTransaction.setCustomerId(cardTransaction.getCustomerId());
+        existingCardTransaction.setAccountId(cardTransaction.getAccountId());
+        existingCardTransaction.setStatus(cardTransaction.getStatus());
+        existingCardTransaction.setType(cardTransaction.getType());
+
         return existingCardTransaction;
     }
 
