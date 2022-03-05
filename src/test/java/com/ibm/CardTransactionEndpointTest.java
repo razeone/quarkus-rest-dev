@@ -10,12 +10,15 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 public class CardTransactionEndpointTest {
 
-    final String path = "/card-transaction";
+    final static String PATH = "/card-transaction";
+    final static String HEADER_NAME = "Content-Type";
+    final static String CONTENT_TYPE = "application/json";
+    
     
     @Test
     public void testCardTransactionResource() {
         given()
-          .when().get(path)
+          .when().get(PATH)
           .then()
              .statusCode(200)
              .body(containsString("\"commerceName\":\"IBM\""));
@@ -24,7 +27,7 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionResourceGet() {
         given()
-          .when().get(path + "/1")
+          .when().get(PATH + "/1")
           .then()
              .statusCode(200)
              .body(containsString("\"commerceName\":\"IBM\""));
@@ -33,7 +36,7 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionResourceGetNotFound() {
         given()
-          .when().get(path + "/999")
+          .when().get(PATH + "/999")
           .then()
              .statusCode(404);
     }
@@ -41,7 +44,7 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionResourceDelete() {
         given()
-          .when().delete(path + "/1")
+          .when().delete(PATH + "/1")
           .then()
              .statusCode(204);
     }
@@ -49,7 +52,7 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionResourceDeleteUnexistent() {
         given()
-          .when().delete(path + "/999")
+          .when().delete(PATH + "/999")
           .then()
              .statusCode(404);
     }
@@ -57,9 +60,9 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionResourcePost() {
         given()
-          .header("Content-Type", "application/json")
+          .header(HEADER_NAME, CONTENT_TYPE)
           .body("{\"cardNumber\":\"123456789\",\"commerceName\":\"IBM\",\"amount\":\"100\",\"timestamp\":\"2020-01-01T00:00:00.000Z\"}")
-          .when().post(path)
+          .when().post(PATH)
           .then()
              .statusCode(201);
     }
@@ -67,9 +70,9 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionResourcePostErr() {
         given()
-          .header("Content-Type", "application/json")
+          .header(HEADER_NAME, CONTENT_TYPE)
           .body("{\"id\": 1, \"cardNumber\":\"123456789\",\"commerceName\":\"IBM\",\"amount\":\"100\",\"timestamp\":\"2020-01-01T00:00:00.000Z\"}")
-          .when().post(path)
+          .when().post(PATH)
           .then()
              .statusCode(422);
     }
@@ -77,9 +80,9 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionResourcePut() {
         given()
-          .header("Content-Type", "application/json")
+          .header(HEADER_NAME, CONTENT_TYPE)
           .body("{\"accountId\": \"e9233dc4-40e6-4a58-8f7a-4543f6e2cf3f\",\"amount\": 150.2,\"cardNumber\": \"1234\",\"commerceName\": \"IBM\",\"customerId\": \"f980f7c1-c07a-48d0-b509-23e496e38d1f\",\"status\": \"PENDING\",\"timestamp\": \"2022-03-03T19:01:39.73Z[UTC]\",\"type\": \"PURCHASE\"}")
-          .when().put(path + "/1")
+          .when().put(PATH + "/1")
           .then()
              .statusCode(200);
     }
@@ -87,9 +90,9 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionResourcePutErr() {
         given()
-          .header("Content-Type", "application/json")
+          .header(HEADER_NAME, CONTENT_TYPE)
           .body("{\"cardNumber\":\"123456789\",\"amount\":\"100\", \"processed\":true,\"timestamp\":\"2020-01-01T00:00:00.000Z\"}")
-          .when().put(path + "/1")
+          .when().put(PATH + "/1")
           .then()
              .statusCode(422);
     }
@@ -97,9 +100,9 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionResourcePutUnexistent() {
         given()
-          .header("Content-Type", "application/json")
+          .header(HEADER_NAME, CONTENT_TYPE)
           .body("{\"accountId\": \"e9233dc4-40e6-4a58-8f7a-4543f6e2cf3f\",\"amount\": 150.2,\"cardNumber\": \"1234\",\"commerceName\": \"IBM\",\"customerId\": \"f980f7c1-c07a-48d0-b509-23e496e38d1f\",\"status\": \"PENDING\",\"timestamp\": \"2022-03-03T19:01:39.73Z[UTC]\",\"type\": \"PURCHASE\"}")
-          .when().put(path + "/999")
+          .when().put(PATH + "/999")
           .then()
              .statusCode(404);
     }
