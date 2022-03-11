@@ -10,9 +10,9 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 public class CardTransactionEndpointTest {
 
-    final static String PATH = "/card-transaction";
-    final static String HEADER_NAME = "Content-Type";
-    final static String CONTENT_TYPE = "application/json";
+    static final String PATH = "/card-transaction";
+    static final String HEADER_NAME = "Content-Type";
+    static final String CONTENT_TYPE = "application/json";
     
     
     @Test
