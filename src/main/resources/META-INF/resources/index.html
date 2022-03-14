@@ -182,7 +182,7 @@
 
 <div class="container">
     <div class="left-column">
-        <p class="lead"> Congratulations, you have created a new Quarkus cloud application.</p>
+        <p class="lead"> Congratulations, you have created a new Quarkus REST cloud application.</p>
 
         <h2>Why do you see this?</h2>
 
@@ -190,6 +190,17 @@
             <code>src/main/resources/META-INF/resources/index.html</code>.</p>
 
         <h2>What can I do from here?</h2>
+
+        <p>
+            You can:
+            <ul>
+                <li><code>curl -X GET http://your-public-route/card-transaction</code></li>
+                <li><code>curl -X GET http://your-public-route/card-transaction/{id}</code></li>
+                <li><code>curl -X POST -H "Content-Type: application/json" http://tou-public-route/card-transaction -d '{"cardNumber":"4312", "commerceName":"Amazon", "amount":1150.20, "customerId":"f980f7c1-c07a-48d0-b509-23e496e38d1f", "accountId":"e9233dc4-40e6-4a58-8f7a-4543f6e2cf3f", "status":"PROCESSED", "type":"PURCHASE"}'</code></li>
+                <li><code>curl -X PUT -H "Content-Type: application/json" <your-public-route>/card-transaction/{id} -d '{"cardNumber":"4312", "commerceName":"Amazon", "amount":1150.20, "customerId":"f980f7c1-c07a-48d0-b509-23e496e38d1f", "accountId":"e9233dc4-40e6-4a58-8f7a-4543f6e2cf3f", "status":"PROCESSED", "type":"PURCHASE"}'</code></li>
+                <li><code>curl -X DELETE <your-public-route>/card-transaction/{id}</code></li>
+            </ul>
+        </p>
 
         <p>If not already done, run the application in <em>dev mode</em> using: <code>./mvnw compile quarkus:dev</code>.
         </p>
@@ -202,11 +213,11 @@
         <a href="https://quarkus.io/guides/rest-json" rel="noopener noreferrer"  target="_blank" class="guide-link">Guide</a>
     </div>
     <div class="example-description">
-        <p>A Hello World RESTEasy resource</p>
+        <p>A Simple RESTEasy resource</p>
 
     </div>
     <div class="example-paths">
-        <a href="/hello" class="path-link" rel="noopener noreferrer"  target="_blank">GET /hello</a>
+        <a href="/card-transaction" class="path-link" rel="noopener noreferrer"  target="_blank">GET /hello</a>
     </div>
 </div>
 
