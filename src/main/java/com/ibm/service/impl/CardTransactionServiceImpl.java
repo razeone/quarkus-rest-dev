@@ -2,6 +2,7 @@ package com.ibm.service.impl;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import com.ibm.model.CardTransaction;
@@ -10,6 +11,7 @@ import com.ibm.service.CardTransactionService;
 
 import io.quarkus.panache.common.Sort;
 
+@ApplicationScoped
 public class CardTransactionServiceImpl implements CardTransactionService {
 
     @Inject
@@ -32,8 +34,13 @@ public class CardTransactionServiceImpl implements CardTransactionService {
     }
 
     @Override
-    public CardTransaction updateCardTransaction(CardTransaction cardTransaction) {
+    public CardTransaction updateCardTransaction(Long id, CardTransaction cardTransaction) {
         CardTransaction existingCardTransaction = cardTransactionRepository.findById(id);
+        
+        if(existingCardTransaction == null) {
+            throw new IllegalArgumentException("CardTransaction not found");
+        }
+
         existingCardTransaction.setCommerceName(cardTransaction.getCommerceName());
         existingCardTransaction.setAmount(cardTransaction.getAmount());
         existingCardTransaction.setCardNumber(cardTransaction.getCardNumber());
@@ -41,6 +48,9 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         existingCardTransaction.setAccountId(cardTransaction.getAccountId());
         existingCardTransaction.setStatus(cardTransaction.getStatus());
         existingCardTransaction.setType(cardTransaction.getType());
+        existingCardTransaction.setType(cardTransaction.getType());
+
+        cardTransactionRepository.persist(existingCardTransaction);
 
         return existingCardTransaction;
     }
@@ -48,6 +58,9 @@ public class CardTransactionServiceImpl implements CardTransactionService {
     @Override
     public void deleteCardTransaction(Long id) {
         CardTransaction existingCardTransaction = cardTransactionRepository.findById(id);
+        if(existingCardTransaction == null) {
+            throw new IllegalArgumentException("CardTransaction not found");
+        }
         cardTransactionRepository.delete(existingCardTransaction);
     }
 

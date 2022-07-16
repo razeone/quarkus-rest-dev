@@ -112,4 +112,8 @@ public class CardTransaction extends PanacheEntity {
         this.type = type;
     }
 
+    protected Boolean isValidToUpdate() {
+        return this.commerceName != null && this.amount != null && this.cardNumber != null && this.customerId != null && this.accountId != null && this.status != null && this.type != null;
+    }
+
 }
