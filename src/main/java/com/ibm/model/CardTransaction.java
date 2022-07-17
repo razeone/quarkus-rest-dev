@@ -26,6 +26,8 @@ public class CardTransaction extends PanacheEntity {
     private String cardNumber;
     private UUID customerId;
     private UUID accountId;
+
+
     
     @Enumerated(EnumType.STRING)
     private CardTransactionStatus status;
@@ -110,6 +112,25 @@ public class CardTransaction extends PanacheEntity {
 
     public void setType(CardTransactionType type) {
         this.type = type;
+    }
+
+    protected boolean isValidToUpdate() {
+        return this.commerceName != null && this.amount != null && this.cardNumber != null && this.customerId != null && this.accountId != null && this.status != null && this.type != null;
+    }
+
+    public void update(CardTransaction cardTransaction) {
+        if (cardTransaction.isValidToUpdate()) {
+            this.commerceName = cardTransaction.commerceName;
+            this.amount = cardTransaction.amount;
+            this.cardNumber = cardTransaction.cardNumber;
+            this.customerId = cardTransaction.customerId;
+            this.accountId = cardTransaction.accountId;
+            this.status = cardTransaction.status;
+            this.type = cardTransaction.type;
+        }
+        else {
+            throw new IllegalStateException("Invalid CardTransaction to update");
+        }
     }
 
 }
