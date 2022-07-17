@@ -40,18 +40,8 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         if(existingCardTransaction == null) {
             throw new IllegalArgumentException("CardTransaction not found");
         }
-
-        existingCardTransaction.setCommerceName(cardTransaction.getCommerceName());
-        existingCardTransaction.setAmount(cardTransaction.getAmount());
-        existingCardTransaction.setCardNumber(cardTransaction.getCardNumber());
-        existingCardTransaction.setCustomerId(cardTransaction.getCustomerId());
-        existingCardTransaction.setAccountId(cardTransaction.getAccountId());
-        existingCardTransaction.setStatus(cardTransaction.getStatus());
-        existingCardTransaction.setType(cardTransaction.getType());
-        existingCardTransaction.setType(cardTransaction.getType());
-
+        existingCardTransaction.update(cardTransaction);
         cardTransactionRepository.persist(existingCardTransaction);
-
         return existingCardTransaction;
     }
 

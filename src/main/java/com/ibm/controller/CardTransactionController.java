@@ -70,7 +70,7 @@ public class CardTransactionController {
         } catch (IllegalArgumentException e) {
             return Response.status(Status.NOT_FOUND).entity(CARD_TRANSACTION_NOT_FOUND).build();
         } catch (IllegalStateException e) {
-            return Response.status(Status.BAD_REQUEST).entity(NOT_SET_ON_REQUEST).build();
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
         return Response.status(Status.OK).entity(cardTransaction).build();
     }
