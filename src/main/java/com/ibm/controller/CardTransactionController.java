@@ -1,7 +1,5 @@
 package com.ibm.controller;
 
-import java.sql.Timestamp;
-
 import javax.inject.Inject;
 
 import javax.ws.rs.GET;
@@ -33,7 +31,6 @@ public class CardTransactionController {
     CardTransactionService cardTransactionService;
 
     private static final String CARD_TRANSACTION_NOT_FOUND = "CardTransaction not found";
-    private static final String NOT_SET_ON_REQUEST = "Not set on request";
  
     @GET
     public Response listCardTransactions() {
@@ -53,11 +50,11 @@ public class CardTransactionController {
     @POST
     @Transactional
     public Response createCardTransaction(CardTransaction cardTransaction) {
-        if(cardTransaction.getid() != null) {
-            return Response.status(Status.BAD_REQUEST).entity("Id not required").build();
+        try{
+            cardTransactionService.createCardTransaction(cardTransaction);
+        } catch(IllegalArgumentException e) {
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
-        cardTransaction.setTimestamp(new Timestamp(System.currentTimeMillis()));
-        cardTransactionService.createCardTransaction(cardTransaction);
         return Response.status(Status.CREATED).entity(cardTransaction).build();
     }
 
@@ -67,12 +64,12 @@ public class CardTransactionController {
     public Response updateCardTransaction(@PathParam("id") Long id, CardTransaction cardTransaction) {
         try {
             cardTransactionService.updateCardTransaction(id, cardTransaction);
+            return Response.status(Status.OK).entity(cardTransaction).build();
         } catch (IllegalArgumentException e) {
             return Response.status(Status.NOT_FOUND).entity(CARD_TRANSACTION_NOT_FOUND).build();
         } catch (IllegalStateException e) {
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
-        return Response.status(Status.OK).entity(cardTransaction).build();
     }
 
     @DELETE
@@ -81,10 +78,10 @@ public class CardTransactionController {
     public Response deletecardTransaction(@PathParam("id") Long id) {
         try {
             cardTransactionService.deleteCardTransaction(id);
+            return Response.status(Response.Status.NO_CONTENT).build();
         } catch (IllegalArgumentException e) {
             return Response.status(Status.NOT_FOUND).entity(CARD_TRANSACTION_NOT_FOUND).build();
         }
-        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
 }

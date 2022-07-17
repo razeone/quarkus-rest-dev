@@ -29,6 +29,9 @@ public class CardTransactionServiceImpl implements CardTransactionService {
 
     @Override
     public CardTransaction createCardTransaction(CardTransaction cardTransaction) {
+        if(!cardTransaction.isValidToCreate()) {
+            throw new IllegalArgumentException(CARD_TRANSACTION_IS_NOT_VALID_TO_CREATE);
+        }
         cardTransactionRepository.persist(cardTransaction);
         return cardTransaction;
     }
@@ -38,7 +41,7 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         CardTransaction existingCardTransaction = cardTransactionRepository.findById(id);
         
         if(existingCardTransaction == null) {
-            throw new IllegalArgumentException("CardTransaction not found");
+            throw new IllegalArgumentException(CARD_TRANSACTION_NOT_FOUND);
         }
         existingCardTransaction.update(cardTransaction);
         cardTransactionRepository.persist(existingCardTransaction);
@@ -49,7 +52,7 @@ public class CardTransactionServiceImpl implements CardTransactionService {
     public void deleteCardTransaction(Long id) {
         CardTransaction existingCardTransaction = cardTransactionRepository.findById(id);
         if(existingCardTransaction == null) {
-            throw new IllegalArgumentException("CardTransaction not found");
+            throw new IllegalArgumentException(CARD_TRANSACTION_NOT_FOUND);
         }
         cardTransactionRepository.delete(existingCardTransaction);
     }

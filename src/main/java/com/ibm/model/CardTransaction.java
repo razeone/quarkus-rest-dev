@@ -14,6 +14,7 @@ import javax.persistence.TemporalType;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Entity
 @Cacheable
@@ -42,7 +43,7 @@ public class CardTransaction extends PanacheEntity {
       // Empty constructor required for JPA
     }
 
-    public Long getid() {
+    public Long getId() {
         return this.id;
     }
 
@@ -82,6 +83,10 @@ public class CardTransaction extends PanacheEntity {
         this.timestamp = timestamp;
     }
 
+    public void setTimestampToNow() {
+        this.timestamp = new Timestamp(System.currentTimeMillis());
+    }
+
     public UUID getCustomerId() {
         return this.customerId;
     }
@@ -116,6 +121,12 @@ public class CardTransaction extends PanacheEntity {
 
     protected boolean isValidToUpdate() {
         return this.commerceName != null && this.amount != null && this.cardNumber != null && this.customerId != null && this.accountId != null && this.status != null && this.type != null;
+    }
+
+    public boolean isValidToCreate() {
+        this.id = null;
+        this.setTimestampToNow();
+        return this.commerceName != null && this.amount != null && this.cardNumber != null && this.customerId != null && this.accountId != null && this.status != null && this.type != null && this.timestamp != null;
     }
 
     public void update(CardTransaction cardTransaction) {
