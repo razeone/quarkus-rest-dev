@@ -22,13 +22,10 @@ public class CardTransaction extends PanacheEntity {
 
     @Column(length=100)
     private String commerceName;
-    
     private BigDecimal amount;
     private String cardNumber;
     private UUID customerId;
     private UUID accountId;
-
-
     
     @Enumerated(EnumType.STRING)
     private CardTransactionStatus status;
@@ -119,18 +116,12 @@ public class CardTransaction extends PanacheEntity {
         this.type = type;
     }
 
-    protected boolean isValidToUpdate() {
+    protected boolean isValid() {
         return this.commerceName != null && this.amount != null && this.cardNumber != null && this.customerId != null && this.accountId != null && this.status != null && this.type != null;
     }
 
-    public boolean isValidToCreate() {
-        this.id = null;
-        this.setTimestampToNow();
-        return this.commerceName != null && this.amount != null && this.cardNumber != null && this.customerId != null && this.accountId != null && this.status != null && this.type != null && this.timestamp != null;
-    }
-
     public void update(CardTransaction cardTransaction) {
-        if (cardTransaction.isValidToUpdate()) {
+        if (cardTransaction.isValid()) {
             this.commerceName = cardTransaction.commerceName;
             this.amount = cardTransaction.amount;
             this.cardNumber = cardTransaction.cardNumber;
@@ -141,6 +132,16 @@ public class CardTransaction extends PanacheEntity {
         }
         else {
             throw new IllegalStateException("Invalid CardTransaction to update");
+        }
+    }
+
+    public void validateToCreate() {
+        if (this.isValid()) {
+            this.id = null;
+            this.setTimestampToNow();
+        }
+        else {
+            throw new IllegalStateException("Invalid CardTransaction to create");
         }
     }
 
