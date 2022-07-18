@@ -54,6 +54,8 @@ public class CardTransactionController {
             cardTransactionService.createCardTransaction(cardTransaction);
         } catch(IllegalArgumentException e) {
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } catch(Exception e) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
         return Response.status(Status.CREATED).entity(cardTransaction).build();
     }
@@ -69,6 +71,8 @@ public class CardTransactionController {
             return Response.status(Status.NOT_FOUND).entity(CARD_TRANSACTION_NOT_FOUND).build();
         } catch (IllegalStateException e) {
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        } catch(Exception e) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
@@ -81,6 +85,8 @@ public class CardTransactionController {
             return Response.status(Response.Status.NO_CONTENT).build();
         } catch (IllegalArgumentException e) {
             return Response.status(Status.NOT_FOUND).entity(CARD_TRANSACTION_NOT_FOUND).build();
+        } catch(Exception e) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 

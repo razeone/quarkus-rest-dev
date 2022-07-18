@@ -29,10 +29,12 @@ public class CardTransactionServiceImpl implements CardTransactionService {
 
     @Override
     public CardTransaction createCardTransaction(CardTransaction cardTransaction) {
-        if(!cardTransaction.isValidToCreate()) {
+        try {
+            cardTransaction.validateToCreate();
+            cardTransactionRepository.persist(cardTransaction);   
+        } catch (Exception e) {
             throw new IllegalArgumentException(CARD_TRANSACTION_IS_NOT_VALID_TO_CREATE);
         }
-        cardTransactionRepository.persist(cardTransaction);
         return cardTransaction;
     }
 
@@ -56,7 +58,5 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         }
         cardTransactionRepository.delete(existingCardTransaction);
     }
-
-    
 
 }
