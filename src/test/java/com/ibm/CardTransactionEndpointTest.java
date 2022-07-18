@@ -17,7 +17,7 @@ public class CardTransactionEndpointTest {
     
     
     @Test
-    public void testCardTransactionController() {
+    public void testCardTransactionController() throws Exception {
         given()
           .when().get(PATH)
           .then()
@@ -26,16 +26,16 @@ public class CardTransactionEndpointTest {
     }
 
     @Test
-    public void testCardTransactionControllerGet() {
+    public void testCardTransactionControllerGet() throws Exception {
         given()
-          .when().get(PATH + "/2")
+          .when().get(PATH + "/9")
           .then()
              .statusCode(200)
-             .body(containsString("\"cardNumber\":\"3456\""));
+             .body(containsString("\"id\":9"));
     }
 
     @Test
-    public void testCardTransactionControllerGetNotFound() {
+    public void testCardTransactionControllerGetNotFound() throws Exception {
         given()
           .when().get(PATH + "/999")
           .then()
@@ -43,23 +43,22 @@ public class CardTransactionEndpointTest {
     }
 
     @Test
-    public void testCardTransactionControllerDelete() {
+    public void testCardTransactionControllerDelete() throws Exception {
         given()
-          .when().delete(PATH + "/1")
+          .when().delete(PATH + "/4")
           .then()
              .statusCode(204);
     }
 
     @Test
-    public void testCardTransactionControllerDeleteUnexistent() {
+    public void testCardTransactionControllerDeleteUnexistent() throws Exception {
         given()
           .when().delete(PATH + "/999")
           .then()
              .statusCode(404);
     }
 
-    /*
-    To-Do: Fix this test maybe seeding programmatically instead of through SQL file
+
     @Test
     public void testCardTransactionControllerPost() {
         given()
@@ -69,10 +68,10 @@ public class CardTransactionEndpointTest {
           .then()
              .statusCode(201);
     }
-    */
+
 
     @Test
-    public void testCardTransactionControllerPostErr() {
+    public void testCardTransactionControllerPostErr() throws Exception {
         given()
           .header(HEADER_NAME, CONTENT_TYPE)
           .body("{\"id\": 1, \"cardNumber\":\"123456789\",\"commerceName\":\"IBM\",\"amount\":\"100\",\"timestamp\":\"2020-01-01T00:00:00.000Z\"}")
@@ -82,17 +81,17 @@ public class CardTransactionEndpointTest {
     }
 
     @Test
-    public void testCardTransactionControllerPut() {
+    public void testCardTransactionControllerPut() throws Exception {
         given()
           .header(HEADER_NAME, CONTENT_TYPE)
           .body("{\"accountId\": \"e9233dc4-40e6-4a58-8f7a-4543f6e2cf3f\",\"amount\": 150.2,\"cardNumber\": \"1234\",\"commerceName\": \"IBM\",\"customerId\": \"f980f7c1-c07a-48d0-b509-23e496e38d1f\",\"status\": \"PENDING\",\"timestamp\": \"2022-03-03T19:01:39.73Z[UTC]\",\"type\": \"PURCHASE\"}")
-          .when().put(PATH + "/1")
+          .when().put(PATH + "/3")
           .then()
              .statusCode(200);
     }
 
     @Test
-    public void testCardTransactionControllerPutErr() {
+    public void testCardTransactionControllerPutErr() throws Exception {
         given()
           .header(HEADER_NAME, CONTENT_TYPE)
           .body("{}")
@@ -102,7 +101,7 @@ public class CardTransactionEndpointTest {
     }
 
     @Test
-    public void testCardTransactionControllerPutUnexistent() {
+    public void testCardTransactionControllerPutUnexistent() throws Exception {
         given()
           .header(HEADER_NAME, CONTENT_TYPE)
           .body("{\"accountId\": \"e9233dc4-40e6-4a58-8f7a-4543f6e2cf3f\",\"amount\": 150.2,\"cardNumber\": \"1234\",\"commerceName\": \"IBM\",\"customerId\": \"f980f7c1-c07a-48d0-b509-23e496e38d1f\",\"status\": \"PENDING\",\"timestamp\": \"2022-03-03T19:01:39.73Z[UTC]\",\"type\": \"PURCHASE\"}")
