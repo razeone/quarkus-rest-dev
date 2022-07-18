@@ -75,7 +75,7 @@ public class CardTransactionController {
     @DELETE
     @Path("{id}")
     @Transactional
-    public Response deletecardTransaction(@PathParam("id") Long id) {
+    public Response deleteCardTransaction(@PathParam("id") Long id) {
         try {
             cardTransactionService.deleteCardTransaction(id);
             return Response.status(Response.Status.NO_CONTENT).build();

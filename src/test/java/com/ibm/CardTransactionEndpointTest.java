@@ -45,7 +45,7 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionControllerDelete() throws Exception {
         given()
-          .when().delete(PATH + "/4")
+          .when().delete(PATH + "/8")
           .then()
              .statusCode(204);
     }
@@ -95,7 +95,7 @@ public class CardTransactionEndpointTest {
         given()
           .header(HEADER_NAME, CONTENT_TYPE)
           .body("{}")
-          .when().put(PATH + "/2")
+          .when().put(PATH + "/10")
           .then()
              .statusCode(400);
     }
