@@ -11,6 +11,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import javax.validation.constraints.NotBlank;
+
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import java.math.BigDecimal;
@@ -21,19 +23,23 @@ import java.sql.Timestamp;
 public class CardTransaction extends PanacheEntity {
 
     @Column(length=100)
+    @NotBlank(message="Commerce Name is required")
     private String commerceName;
-    
+    @NotBlank(message="Amount is required")
     private BigDecimal amount;
+    @NotBlank(message="Card Number is required")
     private String cardNumber;
+    @NotBlank(message="Customer ID is required")
     private UUID customerId;
+    @NotBlank(message="Account ID is required")
     private UUID accountId;
-
-
     
     @Enumerated(EnumType.STRING)
+    @NotBlank(message="Status is required")
     private CardTransactionStatus status;
 
     @Enumerated(EnumType.STRING)
+    @NotBlank(message="Type is required")
     private CardTransactionType type;
 
     @Temporal(TemporalType.TIMESTAMP)
