@@ -39,7 +39,8 @@ public class CardTransactionEndpointTest {
         given()
           .when().get(PATH + "/999")
           .then()
-             .statusCode(404);
+             .statusCode(404)
+             .body(containsString("{\"error\":\"999 CardTransaction not found\"}"));
     }
 
     @Test
@@ -55,7 +56,8 @@ public class CardTransactionEndpointTest {
         given()
           .when().delete(PATH + "/999")
           .then()
-             .statusCode(404);
+             .statusCode(404)
+             .body(containsString("{\"error\":\"999 CardTransaction not found\"}"));
     }
 
 

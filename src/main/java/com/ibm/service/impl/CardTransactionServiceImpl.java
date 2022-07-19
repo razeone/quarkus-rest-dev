@@ -22,7 +22,7 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         return cardTransactionRepository.listAll(Sort.by("timestamp"));
     }
 
-    public List<CardTransaction> getAllCardTransactions(String sortBy) {
+    public List<CardTransaction> getAllCardTransactionsSortedBy(String sortBy) {
         return cardTransactionRepository.listAll(Sort.by(sortBy));
     }
 
@@ -45,7 +45,6 @@ public class CardTransactionServiceImpl implements CardTransactionService {
     @Override
     public CardTransaction updateCardTransaction(Long id, CardTransaction cardTransaction) {
         CardTransaction existingCardTransaction = cardTransactionRepository.findById(id);
-        
         if(existingCardTransaction == null) {
             throw new IllegalArgumentException(CARD_TRANSACTION_NOT_FOUND);
         }
