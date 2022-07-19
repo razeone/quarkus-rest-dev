@@ -22,6 +22,10 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         return cardTransactionRepository.listAll(Sort.by("timestamp"));
     }
 
+    public List<CardTransaction> getAllCardTransactions(String sortBy) {
+        return cardTransactionRepository.listAll(Sort.by(sortBy));
+    }
+
     @Override
     public CardTransaction getCardTransactionById(Long id) {
         return cardTransactionRepository.findById(id);
