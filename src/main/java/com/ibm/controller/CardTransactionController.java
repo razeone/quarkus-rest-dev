@@ -16,6 +16,9 @@ import javax.ws.rs.core.Response.Status;
 
 import javax.transaction.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.enterprise.context.ApplicationScoped;
 
 import com.ibm.model.CardTransaction;
@@ -30,7 +33,8 @@ public class CardTransactionController {
     @Inject
     CardTransactionService cardTransactionService;
 
-    private static final String CARD_TRANSACTION_NOT_FOUND = "CardTransaction not found";
+    private static final String CARD_TRANSACTION_NOT_FOUND = " CardTransaction not found";
+    private HashMap<String, String> error = new HashMap<>();
  
     @GET
     public Response listCardTransactions() {
@@ -42,7 +46,8 @@ public class CardTransactionController {
     public Response getCardTransaction(@PathParam("id") Long id) {
         CardTransaction cardTransaction = cardTransactionService.getCardTransactionById(id);
         if (cardTransaction == null) {
-            return Response.status(Status.NOT_FOUND).entity(CARD_TRANSACTION_NOT_FOUND).build();
+            setError(id.toString() + CARD_TRANSACTION_NOT_FOUND);
+            return Response.status(Status.NOT_FOUND).entity(getError()).build();
         }
         return Response.status(Status.OK).entity(cardTransaction).build();
     }
@@ -53,9 +58,11 @@ public class CardTransactionController {
         try{
             cardTransactionService.createCardTransaction(cardTransaction);
         } catch(IllegalArgumentException e) {
-            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+            setError(e.getMessage());
+            return Response.status(Status.BAD_REQUEST).entity(getError()).build();
         } catch(Exception e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+            setError(e.getMessage());
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(getError()).build();
         }
         return Response.status(Status.CREATED).entity(cardTransaction).build();
     }
@@ -68,11 +75,14 @@ public class CardTransactionController {
             cardTransactionService.updateCardTransaction(id, cardTransaction);
             return Response.status(Status.OK).entity(cardTransaction).build();
         } catch (IllegalArgumentException e) {
-            return Response.status(Status.NOT_FOUND).entity(CARD_TRANSACTION_NOT_FOUND).build();
+            setError(id.toString() + CARD_TRANSACTION_NOT_FOUND);
+            return Response.status(Status.NOT_FOUND).entity(getError()).build();
         } catch (IllegalStateException e) {
-            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+            setError(e.getMessage());
+            return Response.status(Status.BAD_REQUEST).entity(getError()).build();
         } catch(Exception e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+            setError(e.getMessage());
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(getError()).build();
         }
     }
 
@@ -84,10 +94,20 @@ public class CardTransactionController {
             cardTransactionService.deleteCardTransaction(id);
             return Response.status(Response.Status.NO_CONTENT).build();
         } catch (IllegalArgumentException e) {
-            return Response.status(Status.NOT_FOUND).entity(CARD_TRANSACTION_NOT_FOUND).build();
+            setError(id.toString() + CARD_TRANSACTION_NOT_FOUND);
+            return Response.status(Status.NOT_FOUND).entity(getError()).build();
         } catch(Exception e) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+            setError(e.getMessage());
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(getError()).build();
         }
+    }
+
+    public void setError(String error) {
+        this.error.put("error", error);
+    }
+
+    public Map<String, String> getError() {
+        return error;
     }
 
 }

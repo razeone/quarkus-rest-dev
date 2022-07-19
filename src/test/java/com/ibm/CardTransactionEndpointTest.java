@@ -45,7 +45,7 @@ public class CardTransactionEndpointTest {
     @Test
     public void testCardTransactionControllerDelete() throws Exception {
         given()
-          .when().delete(PATH + "/8")
+          .when().delete(PATH + "/2")
           .then()
              .statusCode(204);
     }
