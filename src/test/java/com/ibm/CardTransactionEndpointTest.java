@@ -99,7 +99,8 @@ public class CardTransactionEndpointTest {
           .body("{}")
           .when().put(PATH + "/10")
           .then()
-             .statusCode(400);
+             .statusCode(400)
+             .body(containsString("{\"error\":\"Invalid CardTransaction to update\"}"));
     }
 
     @Test
@@ -109,6 +110,7 @@ public class CardTransactionEndpointTest {
           .body("{\"accountId\": \"e9233dc4-40e6-4a58-8f7a-4543f6e2cf3f\",\"amount\": 150.2,\"cardNumber\": \"1234\",\"commerceName\": \"IBM\",\"customerId\": \"f980f7c1-c07a-48d0-b509-23e496e38d1f\",\"status\": \"PENDING\",\"timestamp\": \"2022-03-03T19:01:39.73Z[UTC]\",\"type\": \"PURCHASE\"}")
           .when().put(PATH + "/999")
           .then()
-             .statusCode(404);
+             .statusCode(404)
+             .body(containsString("{\"error\":\"999 CardTransaction not found\"}"));
     }
 }
