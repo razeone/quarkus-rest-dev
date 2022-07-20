@@ -33,12 +33,17 @@ public class CardTransactionController {
     @Inject
     CardTransactionService cardTransactionService;
 
-    private static final String CARD_TRANSACTION_NOT_FOUND = " CardTransaction not found";
+    private static final String CARD_TRANSACTION_NOT_FOUND = "CardTransaction %s not found";
     private HashMap<String, String> error = new HashMap<>();
  
     @GET
     public Response listCardTransactions() {
-        return Response.status(Status.OK).entity(cardTransactionService.getAllCardTransactions()).build();
+        try {
+            return Response.status(Status.OK).entity(cardTransactionService.getAllCardTransactions()).build();   
+        } catch (Exception e) {
+            setError(e.getMessage());
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(getError()).build();
+        }
     }
 
     @GET
@@ -46,7 +51,7 @@ public class CardTransactionController {
     public Response getCardTransaction(@PathParam("id") Long id) {
         CardTransaction cardTransaction = cardTransactionService.getCardTransactionById(id);
         if (cardTransaction == null) {
-            setError(id.toString() + CARD_TRANSACTION_NOT_FOUND);
+            setNotFoundError(id);
             return Response.status(Status.NOT_FOUND).entity(getError()).build();
         }
         return Response.status(Status.OK).entity(cardTransaction).build();
@@ -75,7 +80,7 @@ public class CardTransactionController {
             cardTransactionService.updateCardTransaction(id, cardTransaction);
             return Response.status(Status.OK).entity(cardTransaction).build();
         } catch (IllegalArgumentException e) {
-            setError(id.toString() + CARD_TRANSACTION_NOT_FOUND);
+            setNotFoundError(id);
             return Response.status(Status.NOT_FOUND).entity(getError()).build();
         } catch (IllegalStateException e) {
             setError(e.getMessage());
@@ -94,7 +99,7 @@ public class CardTransactionController {
             cardTransactionService.deleteCardTransaction(id);
             return Response.status(Response.Status.NO_CONTENT).build();
         } catch (IllegalArgumentException e) {
-            setError(id.toString() + CARD_TRANSACTION_NOT_FOUND);
+            setNotFoundError(id);
             return Response.status(Status.NOT_FOUND).entity(getError()).build();
         } catch(Exception e) {
             setError(e.getMessage());
@@ -104,6 +109,10 @@ public class CardTransactionController {
 
     public void setError(String error) {
         this.error.put("error", error);
+    }
+
+    public void setNotFoundError(Long id) {
+        this.error.put("error", String.format(CARD_TRANSACTION_NOT_FOUND, id.toString()));
     }
 
     public Map<String, String> getError() {

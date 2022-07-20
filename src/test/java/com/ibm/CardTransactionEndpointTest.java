@@ -14,6 +14,8 @@ public class CardTransactionEndpointTest {
     static final String PATH = "/api/card-transaction";
     static final String HEADER_NAME = "Content-Type";
     static final String CONTENT_TYPE = "application/json";
+    static final String NOT_FOUND_RESPONSE = "CardTransaction 999 not found";
+    static final String INVALID_CARD_TRANSACTION_TO_UPDATE = "Invalid CardTransaction to update";
     
     
     @Test
@@ -40,7 +42,7 @@ public class CardTransactionEndpointTest {
           .when().get(PATH + "/999")
           .then()
              .statusCode(404)
-             .body(containsString("{\"error\":\"999 CardTransaction not found\"}"));
+             .body(containsString(NOT_FOUND_RESPONSE));
     }
 
     @Test
@@ -57,7 +59,7 @@ public class CardTransactionEndpointTest {
           .when().delete(PATH + "/999")
           .then()
              .statusCode(404)
-             .body(containsString("{\"error\":\"999 CardTransaction not found\"}"));
+             .body(containsString(NOT_FOUND_RESPONSE));
     }
 
 
@@ -100,7 +102,7 @@ public class CardTransactionEndpointTest {
           .when().put(PATH + "/10")
           .then()
              .statusCode(400)
-             .body(containsString("{\"error\":\"Invalid CardTransaction to update\"}"));
+             .body(containsString(INVALID_CARD_TRANSACTION_TO_UPDATE));
     }
 
     @Test
@@ -111,6 +113,6 @@ public class CardTransactionEndpointTest {
           .when().put(PATH + "/999")
           .then()
              .statusCode(404)
-             .body(containsString("{\"error\":\"999 CardTransaction not found\"}"));
+             .body(containsString(NOT_FOUND_RESPONSE));
     }
 }
